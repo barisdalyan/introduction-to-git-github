@@ -1,0 +1,28 @@
+version: '2.4'
+services:
+  blog-app:
+    container_name: blog-app
+    build: .
+    ports:
+      - 5000:5000
+    networks:
+      - mongo-network
+    depends_on:
+      - mongodb
+    restart: always
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - mongo-network
+volumes:
+  mongodb-data:
+    driver: local
+networks:
+  mongo-network:
+    name: mongo-network
+    driver: bridge
